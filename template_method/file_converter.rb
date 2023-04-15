@@ -1,6 +1,6 @@
 class Converter
   def initialize
-    @target = { name: "Alice", age: 18 }
+    @data = { name: "Alice", age: 18 }
   end
 
   # テンプレートメソッド

@@ -7,6 +7,6 @@ class YamlConverter < Converter
   end
 
   def convert
-    puts @target.to_yaml
+    puts @data.to_yaml
   end
 end
