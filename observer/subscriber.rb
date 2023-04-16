@@ -1,5 +1,6 @@
 require_relative 'subject'
 
+# サブジェクト(自身に変更があった場合、オブザーバーにニュースを届ける)
 # 新聞購読者
 class Subscribers
   include Subject

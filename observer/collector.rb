@@ -1,3 +1,4 @@
+# オブザーバー(サブジェクトの変更に関心がある)
 # 集金係
 class Collector
   def stop(expired_subscribers)

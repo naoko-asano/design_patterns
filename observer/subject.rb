@@ -1,4 +1,5 @@
 module Subject
+  # Ruby標準でObservableモジュールというのが用意されているが、今回は自作してみた
   def initialize
     @observers = []
   end
