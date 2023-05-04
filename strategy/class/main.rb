@@ -1,12 +1,51 @@
-require 'date'
-require_relative 'weather_reporter'
-require_relative 'json_converter'
-require_relative 'yaml_converter'
+require 'json'
+require 'yaml'
 
-weather_data = {date: Date.today, place: "Tokyo", weather: "sunny"}
-weather_reporter = WeatherRepoter.new(weather_data, JsonConverter.new)
-weather_reporter.output_weather_data
+CONTENTS = { name: "Alice", age: 18 }.freeze
 
-# ストラテジの交換が楽
-weather_reporter.converter = YamlFomatter.new
-weather_reporter.output_weather_data
+# Context
+class Outputter
+  attr_writer :converter
+
+  def initialize(converter)
+    @converter = converter
+  end
+
+  def output_contents_with_message
+    output_start_message
+    output_contents
+    output_completion_message
+  end
+
+  def output_start_message
+    puts "出力を開始します"
+  end
+
+  def output_contents
+    puts @converter.convert(CONTENTS)
+  end
+
+  def output_completion_message
+    puts "出力を終了します"
+  end
+end
+
+# Strategy
+class JsonConverter
+  def convert(contents)
+    contents.to_json
+  end
+end
+
+# Strategy
+class YamlConverter
+  def convert(contents)
+    contents.to_yaml
+  end
+end
+
+outputter = Outputter.new(JsonConverter.new)
+outputter.output_contents_with_message
+
+outputter.converter = YamlConverter.new
+outputter.output_contents_with_message

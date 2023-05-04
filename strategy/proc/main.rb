@@ -1,30 +1,36 @@
-require 'date'
 require 'json'
 require 'yaml'
 
-require_relative 'weather_reporter'
+CONTENTS = { name: "Alice", age: 18 }.freeze
 
-weather_data = {date: Date.today, place: "Tokyo", weather: "sunny"}
+class Outputter
+  attr_writer :converter
 
-# ストラテジをProcオブジェクトにすることによって、わざわざクラスを作らずに済むようになった
-# 以下の場合は、Procを使うべき
-# インターフェイスが単純で、1つのメソッドでこと足りる場合
-# HINT: Procオブジェクトに対して呼べるのはcallメソッドのみ
-JSON_CONVERTER =  lambda do |data|
-  data.to_json
+  def initialize(&converter)
+    @converter = converter
+  end
+
+  def output_contents_with_message
+    output_start_message
+    output_contents
+    output_completion_message
+  end
+
+  def output_start_message
+    puts "出力を開始します"
+  end
+
+  def output_contents
+    puts @converter.call(CONTENTS)
+  end
+
+  def output_completion_message
+    puts "出力を終了します"
+  end
 end
-weather_reporter = WeatherRepoter.new(weather_data, &JSON_CONVERTER)
-weather_reporter.output_weather_data
-# -> {"date":"2023-04-16","place":"Tokyo","weather":"sunny"}
 
-# ストラテジの交換が楽
-YAML_CONVERTER = lambda do |data|
-  data.to_yaml
-end
-weather_reporter.converter = YAML_CONVERTER
-weather_reporter.output_weather_data
-# ->
-# ---
-# :date: 2023-04-16
-# :place: Tokyo
-# :weather: sunny
+outputter = Outputter.new { |contents| contents.to_json }
+outputter.output_contents_with_message
+
+outputter.converter = lambda { |contents| contents.to_yaml }
+outputter.output_contents_with_message
