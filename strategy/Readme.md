@@ -23,3 +23,8 @@
 
 - インターフェースが単純で、一つのメソッドで事足りる場合
   - proc オブジェクトを呼び出せるのは、call メソッドのみのため
+
+## 参考文献
+
+- ラス・オルセン 「Ruby によるデザインパターン」 ピアソン・エデュケーション 2009
+- [TECHSCORE](https://www.techscore.com/tech/DesignPattern/Strategy)
