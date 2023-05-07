@@ -1,15 +1,44 @@
-require_relative "./pikachu"
+# client
+class Button
+  attr_accessor :command
+  def initialize(&command)
+    @command = command
+  end
 
-# 単体のコマンドを実行
-pikachu = Pikachu.new
+  def on_click
+    @command.call if @command
+  end
+end
 
-pikachu.attack { puts "サンダーボルト!100のダメージを与える!" }
-pikachu.attack { puts "電光石火!80のダメージを与える!!" }
-pikachu.attack { puts "しっぽをふる!10のダメージを与える!" }
+# command
+class CreateCommand
+  def execute
+    puts "作成します"
+  end
+end
 
-## 連続したコマンド
-# continuous_command = ContinuousCommand.new
-# continuous_command.add_command(thunderbolt_command)
-# continuous_command.add_command(quick_attack_command)
-# continuous_command.add_command(tail_whip_command)
-# pikachu.attack(continuous_command)
+# command
+class SaveCommand
+  def execute
+    puts "変更を保存します"
+  end
+end
+
+# command
+class EditCommand
+  def execute
+    puts "編集します"
+  end
+end
+
+# command
+class DeleteCommand
+  def execute
+    puts "削除します"
+  end
+end
+
+button = Button.new { puts "作成します" }
+button.on_click
+button.command = lambda { puts "変更を保存します" }
+button.on_click
